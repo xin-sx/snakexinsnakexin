@@ -31,15 +31,15 @@ class DetailActivity : AppCompatActivity() {
         val id = intent.getLongExtra(EXTRA_ID, -1L)
         entry = storage.loadAll().firstOrNull { it.id == id }
 
-        binding.detailEditButton.setOnClickListener {
-            entry?.let { startActivity(EditActivity.newIntent(this, it.id)) }
-        }
-
         render()
     }
 
     override fun onResume() {
         super.onResume()
+        // 重新读取最新数据（用户可能从编辑页返回）
+        entry?.let { e ->
+            entry = storage.loadAll().firstOrNull { it.id == e.id }
+        }
         handler.post(tick)
     }
 
@@ -53,17 +53,26 @@ class DetailActivity : AppCompatActivity() {
             binding.detailName.text = "（已删除）"
             binding.detailTime.text = ""
             binding.detailCurrentTime.text = ""
-            binding.detailDiff.text = ""
-            binding.detailTotalDays.text = ""
-            binding.detailEditButton.isEnabled = false
+            binding.boxYears.text = "0"
+            binding.boxMonths.text = "0"
+            binding.boxDays.text = "0"
+            binding.boxHours.text = "0"
+            binding.boxMinutes.text = "0"
+            binding.boxSeconds.text = "0"
             return
         }
         binding.detailName.text = e.name
         binding.detailTime.text = TimeUtils.formatDetailTime(e)
         binding.detailCurrentTime.text = "当前：" + TimeUtils.formatCurrentHms()
-        val diff = TimeUtils.diffYearMonthDay(e)
-        binding.detailDiff.text = "已过 ${diff.years} 年 ${diff.months} 月 ${diff.days} 天"
-        binding.detailTotalDays.text = "合计 ${diff.totalDays} 天"
+
+        // 完整差值：年、月、日、时、分、秒
+        val diff = TimeUtils.diffFull(e)
+        binding.boxYears.text = diff.years.toString()
+        binding.boxMonths.text = diff.months.toString()
+        binding.boxDays.text = diff.days.toString()
+        binding.boxHours.text = diff.hours.toString()
+        binding.boxMinutes.text = diff.minutes.toString()
+        binding.boxSeconds.text = diff.seconds.toString()
     }
 
     companion object {

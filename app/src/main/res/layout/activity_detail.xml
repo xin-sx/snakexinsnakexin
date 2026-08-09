@@ -12,12 +12,11 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Top empty area on the main page maps to: the input time + current h/m/s line. -->
+        <!-- 顶部信息框：姓名 + 用户输入时间 + 当前时分秒 -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:minHeight="220dp"
-            android:layout_weight="2.2"
+            android:layout_height="wrap_content"
+            android:minHeight="180dp"
             android:background="@drawable/box_bg"
             android:gravity="center"
             android:orientation="vertical"
@@ -29,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="@color/text_primary"
-                android:textSize="22sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
                 tools:text="姓名" />
 
@@ -54,47 +53,198 @@
                 tools:text="当前：13:45:00" />
         </LinearLayout>
 
-        <!-- 年月日 differences -->
-        <LinearLayout
+        <!-- 标题：距离当前时间的差 -->
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/box_bg"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:gravity="center"
+            android:text="距今"
+            android:textColor="@color/box_outline"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/detailDiff"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/text_primary"
-                android:textSize="26sp"
-                android:textStyle="bold"
-                tools:text="已过 1 年 2 月 19 天" />
-
-            <TextView
-                android:id="@+id/detailTotalDays"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:textColor="@color/text_primary"
-                android:textSize="18sp"
-                tools:text="合计 569 天" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/detailEditButton"
+        <!-- 第一行：年 / 月 / 日 -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/box_bg"
-            android:padding="14dp"
-            android:stateListAnimator="@null"
-            android:text="编辑"
-            android:textAllCaps="false"
-            android:textColor="@color/text_primary"
-            android:textSize="18sp" />
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/box_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:id="@+id/boxYears"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_primary"
+                    android:textSize="34sp"
+                    android:textStyle="bold"
+                    tools:text="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="年"
+                    android:textColor="@color/box_outline"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/box_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:id="@+id/boxMonths"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_primary"
+                    android:textSize="34sp"
+                    android:textStyle="bold"
+                    tools:text="2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="月"
+                    android:textColor="@color/box_outline"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/box_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:id="@+id/boxDays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_primary"
+                    android:textSize="34sp"
+                    android:textStyle="bold"
+                    tools:text="19" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="日"
+                    android:textColor="@color/box_outline"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 第二行：时 / 分 / 秒 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/box_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:id="@+id/boxHours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_primary"
+                    android:textSize="34sp"
+                    android:textStyle="bold"
+                    tools:text="23" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="时"
+                    android:textColor="@color/box_outline"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/box_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:id="@+id/boxMinutes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_primary"
+                    android:textSize="34sp"
+                    android:textStyle="bold"
+                    tools:text="15" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="分"
+                    android:textColor="@color/box_outline"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/box_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:id="@+id/boxSeconds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_primary"
+                    android:textSize="34sp"
+                    android:textStyle="bold"
+                    tools:text="42" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="秒"
+                    android:textColor="@color/box_outline"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

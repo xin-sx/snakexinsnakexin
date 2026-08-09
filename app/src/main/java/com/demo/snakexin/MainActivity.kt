@@ -36,9 +36,16 @@ class MainActivity : AppCompatActivity() {
         storage = EntryStorage(this)
         entries.addAll(storage.loadAll())
 
-        adapter = EntryAdapter(entries) { entry ->
-            startActivity(DetailActivity.newIntent(this, entry.id))
-        }
+        adapter = EntryAdapter(
+            entries,
+            onClick = { entry ->
+                startActivity(DetailActivity.newIntent(this, entry.id))
+            },
+            onLongClick = { entry ->
+                startActivity(EditActivity.newIntent(this, entry.id))
+                true
+            }
+        )
         binding.entriesList.layoutManager = LinearLayoutManager(this)
         binding.entriesList.adapter = adapter
 
@@ -83,10 +90,18 @@ class MainActivity : AppCompatActivity() {
 
     private inner class EntryAdapter(
         private val items: List<Entry>,
-        private val onClick: (Entry) -> Unit
+        private val onClick: (Entry) -> Unit,
+        private val onLongClick: (Entry) -> Boolean
     ) : RecyclerView.Adapter<EntryAdapter.VH>() {
 
-        inner class VH(val b: ItemEntryBinding) : RecyclerView.ViewHolder(b.root)
+        inner class VH(val b: ItemEntryBinding) : RecyclerView.ViewHolder(b.root) {
+            init {
+                b.root.setOnLongClickListener {
+                    val pos = bindingAdapterPosition
+                    if (pos != RecyclerView.NO_POSITION) onLongClick(items[pos]) else false
+                }
+            }
+        }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
             val b = ItemEntryBinding.inflate(layoutInflater, parent, false)

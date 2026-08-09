@@ -35,33 +35,77 @@ object TimeUtils {
     data class YearMonthDay(val years: Int, val months: Int, val days: Int, val totalDays: Long)
 
     fun diffYearMonthDay(entry: Entry, now: Date = Date()): YearMonthDay {
+        val full = diffFull(entry, now)
+        val totalMillis = full.totalMillis.coerceAtLeast(0L)
+        val totalDays = totalMillis / (24L * 60 * 60 * 1000)
+        return YearMonthDay(full.years, full.months, full.days, totalDays)
+    }
+
+    /**
+     * 详情页完整差值：年、月、日、时、分、秒。
+     *
+     * 采用"逐级借位"的日历算法：先按字段相减，再从最小单位（秒）开始向上借位，
+     * 保证结果在每秒钟刷新时都能稳定地 +1s 递增，不会出现跳变。
+     *
+     * 若输入时间在未来（now 早于 entry），全部返回 0。
+     */
+    data class FullDiff(
+        val years: Int,
+        val months: Int,
+        val days: Int,
+        val hours: Int,
+        val minutes: Int,
+        val seconds: Int,
+        val totalMillis: Long
+    )
+
+    fun diffFull(entry: Entry, now: Date = Date()): FullDiff {
         val start = entry.toCalendar()
         val end = Calendar.getInstance().apply {
             time = now
             set(Calendar.MILLISECOND, 0)
         }
 
+        // 整体在未来，直接返回 0
+        if (end.timeInMillis < start.timeInMillis) {
+            return FullDiff(0, 0, 0, 0, 0, 0, end.timeInMillis - start.timeInMillis)
+        }
+
         var years = end.get(Calendar.YEAR) - start.get(Calendar.YEAR)
         var months = end.get(Calendar.MONTH) - start.get(Calendar.MONTH)
         var days = end.get(Calendar.DAY_OF_MONTH) - start.get(Calendar.DAY_OF_MONTH)
+        var hours = end.get(Calendar.HOUR_OF_DAY) - start.get(Calendar.HOUR_OF_DAY)
+        var minutes = end.get(Calendar.MINUTE) - start.get(Calendar.MINUTE)
+        var seconds = end.get(Calendar.SECOND) - start.get(Calendar.SECOND)
 
+        // 从最小单位开始向上借位
+        if (seconds < 0) {
+            seconds += 60
+            minutes -= 1
+        }
+        if (minutes < 0) {
+            minutes += 60
+            hours -= 1
+        }
+        if (hours < 0) {
+            hours += 24
+            days -= 1
+        }
         if (days < 0) {
-            months -= 1
-            // 回退到上一个月的最大天数
+            // 借上一个月的天数
             val prevMonth = (end.clone() as Calendar).apply { add(Calendar.MONTH, -1) }
             days += prevMonth.getActualMaximum(Calendar.DAY_OF_MONTH)
+            months -= 1
         }
         if (months < 0) {
-            years -= 1
             months += 12
+            years -= 1
         }
         if (years < 0) {
-            // 输入时间在未来
-            return YearMonthDay(0, 0, 0, 0)
+            return FullDiff(0, 0, 0, 0, 0, 0, end.timeInMillis - start.timeInMillis)
         }
 
         val totalMillis = end.timeInMillis - start.timeInMillis
-        val totalDays = if (totalMillis <= 0) 0 else totalMillis / (24L * 60 * 60 * 1000)
-        return YearMonthDay(years, months, days, totalDays)
+        return FullDiff(years, months, days, hours, minutes, seconds, totalMillis)
     }
 }
