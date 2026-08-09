@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background"
+    tools:context=".MainActivity">
+
+    <!-- Top: current date/time, empty area per design -->
+    <TextView
+        android:id="@+id/currentTimeView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2.2"
+        android:gravity="center"
+        android:textColor="@color/text_primary"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        android:padding="16dp"
+        tools:text="2026-08-09 13:45:00" />
+
+    <TextView
+        android:id="@+id/entryCountView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:padding="8dp"
+        android:textColor="@color/box_outline"
+        android:textSize="14sp"
+        tools:text="共 3 条" />
+
+    <!-- Middle: list of entries -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/entriesList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:clipToPadding="false"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp" />
+
+    <!-- Bottom: + add button -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.9"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_add_bg"
+            android:minWidth="96dp"
+            android:text="+"
+            android:textColor="@color/text_primary"
+            android:textSize="40sp" />
+    </FrameLayout>
+
+</LinearLayout>

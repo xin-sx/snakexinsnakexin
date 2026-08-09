@@ -1,0 +1,30 @@
+# Gradle
+.gradle/
+build/
+local.properties
+
+# IntelliJ / Android Studio
+.idea/
+*.iml
+*.iws
+*.ipr
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+!app/release/*.apk
+!app/debug/*.apk
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs / temp
+*.log
+*.hprof
+
+# Keystore (never commit)
+*.jks
+*.keystore
+!debug.keystore.example

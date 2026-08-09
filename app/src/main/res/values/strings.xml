@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">时间记录</string>
+    <string name="title_edit">编辑资料</string>
+    <string name="title_detail">详情</string>
+    <string name="hint_name">姓名</string>
+    <string name="hint_date">点击选择日期</string>
+    <string name="hint_time">点击选择时间（可选）</string>
+    <string name="action_save">保存</string>
+    <string name="action_delete">删除</string>
+    <string name="add_entry">添加</string>
+    <string name="current_time_format">当前时间：%1$s</string>
+    <string name="since_format">距今：%1$d 年 %2$d 月 %3$d 天</string>
+    <string name="entry_count">共 %1$d 条</string>
+    <string name="name_required">请填写姓名</string>
+    <string name="date_required">请选择日期</string>
+    <string name="no_time_selected">未选择时分秒</string>
+</resources>

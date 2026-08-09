@@ -1,0 +1,10 @@
+<resources>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="primary">#FFFF5722</color>
+    <color name="primary_dark">#FFE64A19</color>
+    <color name="background">#FFFFFFFF</color>
+    <color name="text_primary">#FFFF5722</color>
+    <color name="box_outline">#FF000000</color>
+    <color name="divider">#FFCCCCCC</color>
+</resources>
