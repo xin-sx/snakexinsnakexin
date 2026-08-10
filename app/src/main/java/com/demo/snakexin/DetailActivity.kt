@@ -66,7 +66,7 @@ class DetailActivity : AppCompatActivity() {
         binding.detailTime.text = TimeUtils.formatDetailTime(e)
         binding.detailCurrentTime.text = "当前：" + TimeUtils.formatCurrentHms()
 
-        // 完整差值：年、月、日、时、分、秒
+        // 完整差值：累计的年、月、日、时、分、秒
         val diff = TimeUtils.diffFull(e)
         binding.boxYears.text = diff.years.toString()
         binding.boxMonths.text = diff.months.toString()

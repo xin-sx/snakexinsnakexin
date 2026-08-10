@@ -83,10 +83,12 @@
 
                 <TextView
                     android:id="@+id/boxYears"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:maxLines="1"
                     android:textColor="@color/text_primary"
-                    android:textSize="34sp"
+                    android:textSize="30sp"
                     android:textStyle="bold"
                     tools:text="1" />
 
@@ -111,12 +113,14 @@
 
                 <TextView
                     android:id="@+id/boxMonths"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:maxLines="1"
                     android:textColor="@color/text_primary"
-                    android:textSize="34sp"
+                    android:textSize="30sp"
                     android:textStyle="bold"
-                    tools:text="2" />
+                    tools:text="297" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -138,12 +142,14 @@
 
                 <TextView
                     android:id="@+id/boxDays"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:maxLines="1"
                     android:textColor="@color/text_primary"
-                    android:textSize="34sp"
+                    android:textSize="30sp"
                     android:textStyle="bold"
-                    tools:text="19" />
+                    tools:text="9040" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -175,12 +181,14 @@
 
                 <TextView
                     android:id="@+id/boxHours"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:maxLines="1"
                     android:textColor="@color/text_primary"
-                    android:textSize="34sp"
+                    android:textSize="24sp"
                     android:textStyle="bold"
-                    tools:text="23" />
+                    tools:text="216981" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -203,12 +211,14 @@
 
                 <TextView
                     android:id="@+id/boxMinutes"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:maxLines="1"
                     android:textColor="@color/text_primary"
-                    android:textSize="34sp"
+                    android:textSize="24sp"
                     android:textStyle="bold"
-                    tools:text="15" />
+                    tools:text="13018909" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -230,12 +240,14 @@
 
                 <TextView
                     android:id="@+id/boxSeconds"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:maxLines="1"
                     android:textColor="@color/text_primary"
-                    android:textSize="34sp"
+                    android:textSize="22sp"
                     android:textStyle="bold"
-                    tools:text="42" />
+                    tools:text="781134559" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -256,8 +268,7 @@
             android:gravity="center"
             android:lineSpacingExtra="4dp"
             android:textColor="@color/text_primary"
-            android:textSize="18sp"
-            tools:text="小明 至今有 24 年 9 月 1 日 21 时 2 分 54 秒" />
+            android:textSize="16sp"
+            tools:text="师兄 至今有 24 年 297 月 9040 日 216981 时 13018909 分 781134559 秒" />
     </LinearLayout>
 </ScrollView>
-
