@@ -246,5 +246,18 @@
                     android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
+
+        <!-- 完整句子：某某某 至今有 X 年 X 月 X 日 X 时 X 分 X 秒 -->
+        <TextView
+            android:id="@+id/detailSentence"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:lineSpacingExtra="4dp"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp"
+            tools:text="小明 至今有 24 年 9 月 1 日 21 时 2 分 54 秒" />
     </LinearLayout>
 </ScrollView>
+

@@ -3,8 +3,11 @@
     <string name="title_edit">编辑资料</string>
     <string name="title_detail">详情</string>
     <string name="hint_name">姓名</string>
-    <string name="hint_date">点击选择日期</string>
-    <string name="hint_time">点击选择时间（可选）</string>
+    <string name="hint_name_input">请输入姓名</string>
+    <string name="hint_date">日期</string>
+    <string name="hint_date_tap">点击选择日期</string>
+    <string name="hint_time">时间（可选）</string>
+    <string name="hint_time_tap">点击选择时间</string>
     <string name="action_save">保存</string>
     <string name="action_delete">删除</string>
     <string name="add_entry">添加</string>

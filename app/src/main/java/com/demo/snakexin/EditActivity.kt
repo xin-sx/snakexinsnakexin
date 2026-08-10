@@ -71,22 +71,26 @@ class EditActivity : AppCompatActivity() {
     }
 
     private fun renderDate() {
-        binding.dateButton.text = String.format(
+        binding.dateButtonText.text = String.format(
             java.util.Locale.getDefault(),
             "%04d-%02d-%02d",
             pickedYear, pickedMonth, pickedDay
         )
+        // 已选日期：文字变为黑色（实心）
+        binding.dateButtonText.setTextColor(0xFF000000.toInt())
     }
 
     private fun renderTime() {
-        binding.timeButton.text = if (hasTime) {
-            String.format(
+        if (hasTime) {
+            binding.timeButtonText.text = String.format(
                 java.util.Locale.getDefault(),
                 "%02d:%02d:%02d",
                 pickedHour, pickedMinute, pickedSecond
             )
+            binding.timeButtonText.setTextColor(0xFF000000.toInt())
         } else {
-            getString(R.string.no_time_selected)
+            binding.timeButtonText.setText(R.string.no_time_selected)
+            binding.timeButtonText.setTextColor(0xFF888888.toInt())
         }
     }
 

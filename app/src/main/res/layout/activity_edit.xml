@@ -12,120 +12,171 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- 姓名 -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/hint_name"
-            android:textColor="@color/box_outline"
-            android:textSize="16sp" />
+            android:textColor="#FF000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/nameInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:background="@drawable/box_bg"
-            android:hint="@string/hint_name"
+            android:hint="@string/hint_name_input"
             android:inputType="textPersonName"
             android:maxLines="1"
-            android:padding="12dp"
-            android:textColor="@color/text_primary"
-            android:textColorHint="@color/divider"
+            android:padding="14dp"
+            android:textColor="#FF000000"
+            android:textColorHint="#FF888888"
             android:textSize="18sp" />
 
+        <!-- 日期 -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/hint_date"
-            android:textColor="@color/box_outline"
-            android:textSize="16sp" />
+            android:textColor="#FF000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-        <Button
+        <LinearLayout
             android:id="@+id/dateButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:background="@drawable/box_bg"
-            android:gravity="center"
-            android:padding="14dp"
-            android:stateListAnimator="@null"
-            android:text="@string/hint_date"
-            android:textAllCaps="false"
-            android:textColor="@color/text_primary"
-            android:textSize="18sp" />
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
 
+            <TextView
+                android:id="@+id/dateButtonText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/hint_date_tap"
+                android:textColor="#FF888888"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="▼"
+                android:textColor="#FF000000"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- 时间（可选） -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/hint_time"
-            android:textColor="@color/box_outline"
-            android:textSize="16sp" />
+            android:textColor="#FF000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:orientation="horizontal">
 
-            <Button
+            <LinearLayout
                 android:id="@+id/timeButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/box_bg"
-                android:gravity="center"
-                android:padding="14dp"
-                android:stateListAnimator="@null"
-                android:text="@string/hint_time"
-                android:textAllCaps="false"
-                android:textColor="@color/text_primary"
-                android:textSize="18sp" />
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp">
 
-            <Button
+                <TextView
+                    android:id="@+id/timeButtonText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/hint_time_tap"
+                    android:textColor="#FF888888"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="▼"
+                    android:textColor="#FF000000"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <TextView
                 android:id="@+id/clearTimeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:background="@drawable/box_bg"
-                android:padding="14dp"
-                android:stateListAnimator="@null"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:padding="16dp"
                 android:text="清除"
-                android:textColor="@color/text_primary"
+                android:textColor="#FF000000"
                 android:textSize="16sp" />
         </LinearLayout>
 
+        <!-- 保存 / 删除 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:orientation="horizontal">
 
-            <Button
+            <TextView
                 android:id="@+id/saveButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/box_bg"
-                android:padding="14dp"
-                android:stateListAnimator="@null"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/btn_save_bg"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:padding="16dp"
                 android:text="@string/action_save"
-                android:textAllCaps="false"
-                android:textColor="@color/text_primary"
-                android:textSize="18sp" />
+                android:textColor="#FFFFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-            <Button
+            <TextView
                 android:id="@+id/deleteButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
                 android:layout_weight="1"
-                android:background="@drawable/box_bg"
-                android:padding="14dp"
-                android:stateListAnimator="@null"
+                android:background="@drawable/btn_delete_bg"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:padding="16dp"
                 android:text="@string/action_delete"
-                android:textAllCaps="false"
-                android:textColor="@color/text_primary"
+                android:textColor="#FFFFFFFF"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>

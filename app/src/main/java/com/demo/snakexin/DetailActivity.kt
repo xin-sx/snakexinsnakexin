@@ -59,6 +59,7 @@ class DetailActivity : AppCompatActivity() {
             binding.boxHours.text = "0"
             binding.boxMinutes.text = "0"
             binding.boxSeconds.text = "0"
+            binding.detailSentence.text = ""
             return
         }
         binding.detailName.text = e.name
@@ -73,6 +74,11 @@ class DetailActivity : AppCompatActivity() {
         binding.boxHours.text = diff.hours.toString()
         binding.boxMinutes.text = diff.minutes.toString()
         binding.boxSeconds.text = diff.seconds.toString()
+
+        // 完整句子：某某某 至今有 X 年 X 月 X 日 X 时 X 分 X 秒
+        binding.detailSentence.text =
+            "${e.name} 至今有 ${diff.years} 年 ${diff.months} 月 ${diff.days} 日 " +
+                    "${diff.hours} 时 ${diff.minutes} 分 ${diff.seconds} 秒"
     }
 
     companion object {
