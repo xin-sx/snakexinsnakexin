@@ -27,4 +27,5 @@ Thumbs.db
 # Keystore (never commit)
 *.jks
 *.keystore
+!app/snakexin-release.keystore
 !debug.keystore.example
