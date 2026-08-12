@@ -8,6 +8,15 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
+// 读取版本号（从 version.properties 加载）
+def versionPropertiesFile = rootProject.file("version.properties")
+def versionProperties = new Properties()
+if (versionPropertiesFile.exists()) {
+    versionProperties.load(new FileInputStream(versionPropertiesFile))
+}
+def appVersionName = versionProperties['VERSION_NAME']?.toString() ?: '1.0.0'
+def appVersionCode = (versionProperties['VERSION_CODE']?.toString() ?: '1').toInteger()
+
 android {
     namespace "com.demo.snakexin"
     compileSdk 36
@@ -16,8 +25,8 @@ android {
         applicationId "com.demo.snakexin"
         minSdk 24
         targetSdk 36
-        versionCode 1
-        versionName "1.0"
+        versionCode appVersionCode
+        versionName appVersionName
 
         // Restrict native libraries to 64-bit ABIs only.
         ndk {
