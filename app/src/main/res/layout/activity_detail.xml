@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,7 +13,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- 顶部信息框：姓名 + 用户输入时间 + 当前时分秒 -->
+        <!-- 顶部信息框：姓名 + 用户输入时间 + 完整句子 + 当前时分秒 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,6 +42,18 @@
                 android:textColor="@color/text_primary"
                 android:textSize="20sp"
                 tools:text="2024-05-20 14:30:00" />
+
+            <!-- 完整句子：某某某 至今有 X 年 X 月 X 日 X 时 X 分 X 秒 -->
+            <TextView
+                android:id="@+id/detailSentence"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                tools:text="师兄 至今有 24 年 297 月 9040 日 216981 时 13018909 分 781134559 秒" />
 
             <TextView
                 android:id="@+id/detailCurrentTime"
@@ -84,13 +97,15 @@
                 <TextView
                     android:id="@+id/boxYears"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:gravity="center"
                     android:maxLines="1"
                     android:textColor="@color/text_primary"
-                    android:textSize="30sp"
                     android:textStyle="bold"
-                    tools:text="1" />
+                    app:autoSizeTextType="uniform"
+                    app:autoSizeMinTextSize="10sp"
+                    app:autoSizeMaxTextSize="30sp"
+                    tools:text="24" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -114,12 +129,14 @@
                 <TextView
                     android:id="@+id/boxMonths"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:gravity="center"
                     android:maxLines="1"
                     android:textColor="@color/text_primary"
-                    android:textSize="30sp"
                     android:textStyle="bold"
+                    app:autoSizeTextType="uniform"
+                    app:autoSizeMinTextSize="10sp"
+                    app:autoSizeMaxTextSize="30sp"
                     tools:text="297" />
 
                 <TextView
@@ -143,12 +160,14 @@
                 <TextView
                     android:id="@+id/boxDays"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:gravity="center"
                     android:maxLines="1"
                     android:textColor="@color/text_primary"
-                    android:textSize="30sp"
                     android:textStyle="bold"
+                    app:autoSizeTextType="uniform"
+                    app:autoSizeMinTextSize="10sp"
+                    app:autoSizeMaxTextSize="30sp"
                     tools:text="9040" />
 
                 <TextView
@@ -182,12 +201,14 @@
                 <TextView
                     android:id="@+id/boxHours"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:gravity="center"
                     android:maxLines="1"
                     android:textColor="@color/text_primary"
-                    android:textSize="24sp"
                     android:textStyle="bold"
+                    app:autoSizeTextType="uniform"
+                    app:autoSizeMinTextSize="8sp"
+                    app:autoSizeMaxTextSize="24sp"
                     tools:text="216981" />
 
                 <TextView
@@ -212,12 +233,14 @@
                 <TextView
                     android:id="@+id/boxMinutes"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:gravity="center"
                     android:maxLines="1"
                     android:textColor="@color/text_primary"
-                    android:textSize="24sp"
                     android:textStyle="bold"
+                    app:autoSizeTextType="uniform"
+                    app:autoSizeMinTextSize="8sp"
+                    app:autoSizeMaxTextSize="24sp"
                     tools:text="13018909" />
 
                 <TextView
@@ -241,12 +264,14 @@
                 <TextView
                     android:id="@+id/boxSeconds"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:gravity="center"
                     android:maxLines="1"
                     android:textColor="@color/text_primary"
-                    android:textSize="22sp"
                     android:textStyle="bold"
+                    app:autoSizeTextType="uniform"
+                    app:autoSizeMinTextSize="8sp"
+                    app:autoSizeMaxTextSize="22sp"
                     tools:text="781134559" />
 
                 <TextView
@@ -259,16 +284,5 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- 完整句子：某某某 至今有 X 年 X 月 X 日 X 时 X 分 X 秒 -->
-        <TextView
-            android:id="@+id/detailSentence"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:lineSpacingExtra="4dp"
-            android:textColor="@color/text_primary"
-            android:textSize="16sp"
-            tools:text="师兄 至今有 24 年 297 月 9040 日 216981 时 13018909 分 781134559 秒" />
     </LinearLayout>
 </ScrollView>
