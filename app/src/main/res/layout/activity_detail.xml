@@ -13,7 +13,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- 顶部信息框：姓名 + 用户输入时间 + 完整句子 + 当前时分秒 -->
+        <!-- 顶部信息框：姓名 + 用户输入时间 + 当前时分秒 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,18 +42,6 @@
                 android:textColor="@color/text_primary"
                 android:textSize="20sp"
                 tools:text="2024-05-20 14:30:00" />
-
-            <!-- 完整句子：某某某 至今有 X 年 X 月 X 日 X 时 X 分 X 秒 -->
-            <TextView
-                android:id="@+id/detailSentence"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:lineSpacingExtra="4dp"
-                android:textColor="@color/text_primary"
-                android:textSize="16sp"
-                tools:text="师兄 至今有 24 年 297 月 9040 日 216981 时 13018909 分 781134559 秒" />
 
             <TextView
                 android:id="@+id/detailCurrentTime"

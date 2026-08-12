@@ -24,6 +24,8 @@ class MainActivity : AppCompatActivity() {
     private val tick = object : Runnable {
         override fun run() {
             updateCurrentTime()
+            // 每秒刷新列表卡片中的完整句子（秒数在变）
+            adapter.notifyItemRangeChanged(0, adapter.itemCount)
             handler.postDelayed(this, 1000L)
         }
     }
@@ -112,6 +114,13 @@ class MainActivity : AppCompatActivity() {
             val e = items[position]
             holder.b.itemName.text = if (e.name.isBlank()) "（未命名）" else e.name
             holder.b.itemTime.text = TimeUtils.formatEntryTime(e)
+
+            // 完整句子：某某某 至今有 X 年 X 月 X 日 X 时 X 分 X 秒
+            val diff = TimeUtils.diffFull(e)
+            holder.b.itemSentence.text =
+                "${e.name} 至今有 ${diff.years} 年 ${diff.months} 月 ${diff.days} 日 " +
+                        "${diff.hours} 时 ${diff.minutes} 分 ${diff.seconds} 秒"
+
             holder.b.root.setOnClickListener { onClick(e) }
         }
 
