@@ -17,4 +17,30 @@
     <string name="name_required">请填写姓名</string>
     <string name="date_required">请选择日期</string>
     <string name="no_time_selected">未选择时分秒</string>
+
+    <!-- 备注 -->
+    <string name="memo_title">备注</string>
+    <string name="memo_add">添加备注</string>
+    <string name="memo_type_text">文字</string>
+    <string name="memo_type_audio">录音</string>
+    <string name="memo_type_video">录像</string>
+    <string name="memo_type_photo">照片</string>
+    <string name="memo_pick_type">请选择备注类型</string>
+    <string name="memo_text_hint">写下你想记录的…</string>
+    <string name="memo_text_save">保存</string>
+    <string name="memo_text_cancel">取消</string>
+    <string name="memo_delete">删除</string>
+    <string name="memo_delete_confirm">确定要删除这条备注吗？</string>
+    <string name="memo_recording">录音中…</string>
+    <string name="memo_stop">停止</string>
+    <string name="memo_audio_format">音频 · %1$s</string>
+    <string name="memo_video_format">视频 · %1$s</string>
+    <string name="memo_photo_format">照片 · %1$s</string>
+    <string name="memo_text_format">文字 · %1$s</string>
+    <string name="memo_empty">还没有备注</string>
+    <string name="memo_no_camera">没有可用的相机</string>
+    <string name="memo_record_fail">录制失败：%1$s</string>
+    <string name="memo_photo_fail">拍照失败：%1$s</string>
+    <string name="memo_play_fail">无法播放：%1$s</string>
+    <string name="memo_permission_need">需要录音和相机权限</string>
 </resources>

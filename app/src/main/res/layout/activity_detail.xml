@@ -272,5 +272,53 @@
             </LinearLayout>
         </LinearLayout>
 
+        <!-- 备注标题 + 添加按钮 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/memo_title"
+                android:textColor="@color/text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/addMemoBtn"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/memo_add"
+                android:src="@android:drawable/ic_menu_add"
+                app:tint="@color/text_primary" />
+        </LinearLayout>
+
+        <!-- 备注列表 -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/memoList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:nestedScrollingEnabled="false" />
+
+        <!-- 空状态 -->
+        <TextView
+            android:id="@+id/memoEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/memo_empty"
+            android:textColor="@color/box_outline"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
     </LinearLayout>
 </ScrollView>
