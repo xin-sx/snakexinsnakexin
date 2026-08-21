@@ -21,6 +21,15 @@ class MemoStorage(context: Context) {
         return d
     }
 
+    /**
+     * 把备忘里存的相对路径 [Memo.mediaPath] 拼成绝对文件。
+     * 如果 [mediaPath] 为空，或 [entryId] 为空，返回 null。
+     */
+    fun fileFor(entryId: Long, memo: Memo): File? {
+        val rel = memo.mediaPath ?: return null
+        return File(memoDir(entryId), rel)
+    }
+
     fun loadMemos(entryId: Long): MutableList<Memo> {
         val raw = prefs.getString(keyFor(entryId), null) ?: return mutableListOf()
         return try {

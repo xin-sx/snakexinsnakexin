@@ -186,7 +186,10 @@ class DetailActivity : AppCompatActivity() {
     /* ------------ 备注列表 ------------ */
 
     private fun setupMemoList() {
+        val e = entry ?: return
         memoAdapter = MemoAdapter(
+            storage = memoStorage,
+            entryId = e.id,
             items = memos,
             onDelete = { memo -> confirmDelete(memo) },
             onPhotoClick = { memo -> showPhotoFull(memo) }
@@ -208,7 +211,8 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun showPhotoFull(memo: Memo) {
-        val file = memo.mediaPath?.let { File(it) } ?: return
+        val e = entry ?: return
+        val file = memoStorage.fileFor(e.id, memo) ?: return
         if (!file.exists()) return
         val view = ImageView(this).apply {
             adjustViewBounds = true
@@ -458,7 +462,7 @@ class DetailActivity : AppCompatActivity() {
             r.setAudioSamplingRate(44_100)
         }
         r.setOutputFile(outFile.absolutePath)
-        r.setMaxDuration(10 * 60 * 1000) // 10 分钟上限
+        // 不限制时长 / 大小，让用户自己决定何时停止
         r.prepare()
         r.start()
         recorder = r

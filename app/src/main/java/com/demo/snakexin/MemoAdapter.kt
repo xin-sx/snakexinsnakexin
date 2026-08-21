@@ -1,5 +1,6 @@
 package com.demo.snakexin
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,8 +24,13 @@ import java.util.Locale
  * - TEXT: 文字
  * - PHOTO: 图片缩略图（点击全屏查看由 Activity 处理）
  * - AUDIO / VIDEO: ExoPlayer 播放
+ *
+ * 媒体文件存放在私有目录的相对路径 [Memo.mediaPath] 里，构造时传入
+ * [MemoStorage] 和 [entryId]，由 [MemoStorage.fileFor] 拼成绝对路径。
  */
 class MemoAdapter(
+    private val storage: MemoStorage,
+    private val entryId: Long,
     private var items: List<Memo>,
     private val onDelete: (Memo) -> Unit,
     private val onPhotoClick: (Memo) -> Unit
@@ -83,11 +89,13 @@ class MemoAdapter(
         // 照片
         holder.photo.visibility = if (m.type == Memo.Type.PHOTO) View.VISIBLE else View.GONE
         if (m.type == Memo.Type.PHOTO) {
-            val file = m.mediaPath?.let { File(it) }
+            val file = storage.fileFor(entryId, m)
             if (file != null && file.exists()) {
                 holder.photo.load(file) {
                     crossfade(true)
                 }
+            } else {
+                holder.photo.setImageDrawable(null)
             }
             holder.photo.setOnClickListener { onPhotoClick(m) }
         } else {
@@ -99,7 +107,7 @@ class MemoAdapter(
         holder.mediaRow.visibility = if (isMedia) View.VISIBLE else View.GONE
         holder.playerContainer.visibility = View.GONE
         if (isMedia) {
-            val file = m.mediaPath?.let { File(it) }
+            val file = storage.fileFor(entryId, m)
             val exists = file != null && file.exists()
             holder.play.isEnabled = exists
             holder.mediaLabel.text = if (exists) {
@@ -110,15 +118,14 @@ class MemoAdapter(
             }
             holder.play.setOnClickListener {
                 if (!exists) return@setOnClickListener
-                togglePlayback(holder, m)
+                togglePlayback(holder, file!!)
             }
         }
 
         holder.delete.setOnClickListener { onDelete(m) }
     }
 
-    private fun togglePlayback(holder: VH, m: Memo) {
-        val file = m.mediaPath?.let { File(it) } ?: return
+    private fun togglePlayback(holder: VH, file: File) {
         if (activePlayer != null && activeView === holder.playerContainer) {
             // 同一个 → 停止
             releaseActivePlayer()
@@ -132,7 +139,8 @@ class MemoAdapter(
         val view = holder.playerContainer
         view.player = player
         view.visibility = View.VISIBLE
-        player.setMediaItem(MediaItem.fromUri(file.toURI().toString()))
+        // 用 file:// URI；ExoPlayer 走 content sniffing，自动识别 mp4/m4a/mp3/3gp/...
+        player.setMediaItem(MediaItem.fromUri(Uri.fromFile(file)))
         player.prepare()
         player.playWhenReady = true
         activePlayer = player
