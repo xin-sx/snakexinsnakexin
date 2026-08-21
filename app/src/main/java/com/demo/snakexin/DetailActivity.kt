@@ -16,6 +16,7 @@ import android.os.SystemClock
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Chronometer
 import android.widget.EditText
 import android.widget.ImageView
@@ -28,6 +29,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import coil.size.Size
 import com.demo.snakexin.databinding.ActivityDetailBinding
 import java.io.File
 
@@ -214,11 +216,23 @@ class DetailActivity : AppCompatActivity() {
         val e = entry ?: return
         val file = memoStorage.fileFor(e.id, memo) ?: return
         if (!file.exists()) return
+
+        // 取屏幕尺寸，确保大图能完整显示在对话框里
+        val dm = resources.displayMetrics
+        val targetW = dm.widthPixels
+        val targetH = (dm.heightPixels * 0.75f).toInt()
+
         val view = ImageView(this).apply {
-            adjustViewBounds = true
             setBackgroundColor(0xFF000000.toInt())
             scaleType = ImageView.ScaleType.FIT_CENTER
-            load(file)
+            // 关键：必须给 ImageView 明确尺寸。默认 WRAP_CONTENT 在 FIT_CENTER 下
+            // 会变成 0x0，导致整张图看不见。
+            layoutParams = ViewGroup.LayoutParams(targetW, targetH)
+            // 让 Coil 直接按 view 尺寸解码，避免超大图 OOM
+            load(file) {
+                size(Size(targetW, targetH))
+                crossfade(true)
+            }
         }
         AlertDialog.Builder(this)
             .setView(view)
