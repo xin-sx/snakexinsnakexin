@@ -43,4 +43,8 @@
     <string name="memo_photo_fail">拍照失败：%1$s</string>
     <string name="memo_play_fail">无法播放：%1$s</string>
     <string name="memo_permission_need">需要录音和相机权限</string>
+    <string name="memo_pick_mode_title">选择方式</string>
+    <string name="memo_mode_new">新建</string>
+    <string name="memo_mode_pick">从存储选择</string>
+    <string name="memo_pick_fail">选择失败：%1$s</string>
 </resources>

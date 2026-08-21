@@ -21,6 +21,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -48,6 +49,9 @@ class DetailActivity : AppCompatActivity() {
 
     // 拍照
     private var pendingPhotoFile: File? = null
+
+    // 从存储选择媒体（照片 / 视频 / 音频）
+    private var pendingPickType: Memo.Type? = null
 
     private val handler = Handler(Looper.getMainLooper())
     private val tick = object : Runnable {
@@ -101,6 +105,18 @@ class DetailActivity : AppCompatActivity() {
             file?.delete()
         }
     }
+
+    /* ------------ 从存储选媒体回调 ------------ */
+
+    // 照片 / 视频：走 Android 13+ 的 Photo Picker（旧系统自动 fallback 到 OpenDocument）
+    private val pickVisualMedia = registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ) { uri -> handlePickedUri(uri) }
+
+    // 音频：Photo Picker 不支持音频，用 OpenDocument
+    private val pickAudioLauncher = registerForActivityResult(
+        ActivityResultContracts.OpenDocument()
+    ) { uri -> handlePickedUri(uri) }
 
     /* ------------ Activity 生命周期 ------------ */
 
@@ -230,19 +246,127 @@ class DetailActivity : AppCompatActivity() {
             dlg.dismiss()
             showTextInput()
         }
+        // 录音 / 录像 / 照片：先弹"新建 / 从存储选择"二级菜单
         view.findViewById<TextView>(R.id.pickAudio).setOnClickListener {
             dlg.dismiss()
-            ensureRecordAudioPerm { showRecordingDialog(isVideo = false) }
+            showMediaModePicker(Memo.Type.AUDIO)
         }
         view.findViewById<TextView>(R.id.pickVideo).setOnClickListener {
             dlg.dismiss()
-            ensureVideoPerms { showRecordingDialog(isVideo = true) }
+            showMediaModePicker(Memo.Type.VIDEO)
         }
         view.findViewById<TextView>(R.id.pickPhoto).setOnClickListener {
             dlg.dismiss()
-            ensureCameraPerm { launchCameraForPhoto() }
+            showMediaModePicker(Memo.Type.PHOTO)
         }
         dlg.show()
+    }
+
+    /**
+     * 二级菜单：选"新建"（拍照/录像/录音）还是"从存储选择"。
+     * 文字类型不需要这个对话框，所以 showTypePicker 直接进 showTextInput。
+     */
+    private fun showMediaModePicker(type: Memo.Type) {
+        val labels = arrayOf(
+            getString(R.string.memo_mode_new),
+            getString(R.string.memo_mode_pick)
+        )
+        AlertDialog.Builder(this)
+            .setTitle(R.string.memo_pick_mode_title)
+            .setItems(labels) { _, which ->
+                when (which) {
+                    0 -> when (type) {
+                        Memo.Type.AUDIO -> ensureRecordAudioPerm { showRecordingDialog(isVideo = false) }
+                        Memo.Type.VIDEO -> ensureVideoPerms { showRecordingDialog(isVideo = true) }
+                        Memo.Type.PHOTO -> ensureCameraPerm { launchCameraForPhoto() }
+                        else -> {}
+                    }
+                    1 -> launchMediaPicker(type)
+                    else -> {}
+                }
+            }
+            .show()
+    }
+
+    /** 启动系统选择器：照片 / 视频走 Photo Picker，音频走 OpenDocument。 */
+    private fun launchMediaPicker(type: Memo.Type) {
+        pendingPickType = type
+        when (type) {
+            Memo.Type.PHOTO -> pickVisualMedia.launch(
+                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+            )
+            Memo.Type.VIDEO -> pickVisualMedia.launch(
+                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.VideoOnly)
+            )
+            Memo.Type.AUDIO -> pickAudioLauncher.launch(arrayOf("audio/*"))
+            else -> {}
+        }
+    }
+
+    /**
+     * 把选中的文件复制到应用私有目录 [memoDir]，然后保存为 [Memo]。
+     * 复制走 ContentResolver.openInputStream，应用外 URI 也能读。
+     */
+    private fun handlePickedUri(uri: Uri?) {
+        val e = entry ?: return
+        val type = pendingPickType ?: return
+        pendingPickType = null
+
+        if (uri == null) return  // 用户取消
+
+        val ext = extForType(type, uri)
+        val outFile = File(memoStorage.memoDir(e.id), "memo_${System.currentTimeMillis()}.$ext")
+
+        try {
+            contentResolver.openInputStream(uri)?.use { input ->
+                outFile.outputStream().use { output -> input.copyTo(output) }
+            }
+        } catch (t: Throwable) {
+            outFile.delete()
+            Toast.makeText(
+                this,
+                getString(R.string.memo_pick_fail, t.message ?: ""),
+                Toast.LENGTH_LONG
+            ).show()
+            return
+        }
+
+        if (outFile.exists() && outFile.length() > 0L) {
+            saveMediaMemo(type, outFile)
+        } else {
+            outFile.delete()
+            Toast.makeText(this, getString(R.string.memo_pick_fail, ""), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /** 根据类型 + URI MIME 决定扩展名，尽量保持原文件类型 */
+    private fun extForType(type: Memo.Type, uri: Uri): String {
+        val mime = contentResolver.getType(uri)
+        return when (type) {
+            Memo.Type.PHOTO -> when {
+                mime == null -> "jpg"
+                mime.contains("png") -> "png"
+                mime.contains("webp") -> "webp"
+                mime.contains("gif") -> "gif"
+                else -> "jpg"
+            }
+            Memo.Type.VIDEO -> when {
+                mime == null -> "mp4"
+                mime.contains("3gpp") -> "3gp"
+                mime.contains("quicktime") -> "mov"
+                mime.contains("matroska") -> "mkv"
+                else -> "mp4"
+            }
+            Memo.Type.AUDIO -> when {
+                mime == null -> "m4a"
+                mime.contains("mpeg") -> "mp3"
+                mime.contains("ogg") -> "ogg"
+                mime.contains("wav") -> "wav"
+                mime.contains("3gpp") -> "3gp"
+                else -> "m4a"
+            }
+            else -> "bin"
+        }
     }
 
     private fun showTextInput() {
