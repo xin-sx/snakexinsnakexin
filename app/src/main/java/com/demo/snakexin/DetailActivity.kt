@@ -19,7 +19,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Chronometer
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
@@ -194,12 +193,28 @@ class DetailActivity : AppCompatActivity() {
             entryId = e.id,
             items = memos,
             onDelete = { memo -> confirmDelete(memo) },
-            onPhotoClick = { memo -> showPhotoFull(memo) }
+            onPhotoClick = { memo -> showPhotoFull(memo) },
+            onVideoClick = { memo -> openVideoFullscreen(memo) }
         )
         binding.memoList.layoutManager = LinearLayoutManager(this)
         binding.memoList.adapter = memoAdapter
 
         binding.addMemoBtn.setOnClickListener { showTypePicker() }
+    }
+
+    private fun openVideoFullscreen(memo: Memo) {
+        val e = entry ?: return
+        val file = memoStorage.fileFor(e.id, memo) ?: run {
+            Toast.makeText(this, R.string.memo_play_fail, Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (!file.exists() || file.length() <= 0L) {
+            Toast.makeText(this, R.string.memo_play_fail, Toast.LENGTH_SHORT).show()
+            return
+        }
+        // 进入全屏前先停掉列表里可能正在内嵌播放的 ExoPlayer
+        memoAdapter.release()
+        startActivity(VideoFullscreenActivity.newIntent(this, file.absolutePath))
     }
 
     private fun reloadMemos() {
@@ -222,10 +237,11 @@ class DetailActivity : AppCompatActivity() {
         val targetW = dm.widthPixels
         val targetH = (dm.heightPixels * 0.75f).toInt()
 
-        val view = ImageView(this).apply {
+        // 使用支持双指缩放 / 双击放大 / 单指拖动的 ImageView，
+        // scaleType = MATRIX 配合 fitCenterMatrix() 完整显示整张图
+        val view = ZoomableImageView(this).apply {
             setBackgroundColor(0xFF000000.toInt())
-            scaleType = ImageView.ScaleType.FIT_CENTER
-            // 关键：必须给 ImageView 明确尺寸。默认 WRAP_CONTENT 在 FIT_CENTER 下
+            // 关键：必须给 ImageView 明确尺寸。默认 WRAP_CONTENT 在 MATRIX 下
             // 会变成 0x0，导致整张图看不见。
             layoutParams = ViewGroup.LayoutParams(targetW, targetH)
             // 让 Coil 直接按 view 尺寸解码，避免超大图 OOM

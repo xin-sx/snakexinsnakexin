@@ -33,7 +33,8 @@ class MemoAdapter(
     private val entryId: Long,
     private var items: List<Memo>,
     private val onDelete: (Memo) -> Unit,
-    private val onPhotoClick: (Memo) -> Unit
+    private val onPhotoClick: (Memo) -> Unit,
+    private val onVideoClick: (Memo) -> Unit
 ) : RecyclerView.Adapter<MemoAdapter.VH>() {
 
     private val df = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
@@ -118,7 +119,12 @@ class MemoAdapter(
             }
             holder.play.setOnClickListener {
                 if (!exists) return@setOnClickListener
-                togglePlayback(holder, file!!)
+                // 视频点击进入全屏播放；音频继续走内嵌播放（音频无画面）
+                if (m.type == Memo.Type.VIDEO) {
+                    onVideoClick(m)
+                } else {
+                    togglePlayback(holder, file!!)
+                }
             }
         }
 
