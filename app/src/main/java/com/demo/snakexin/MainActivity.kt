@@ -115,11 +115,8 @@ class MainActivity : AppCompatActivity() {
             holder.b.itemName.text = if (e.name.isBlank()) "（未命名）" else e.name
             holder.b.itemTime.text = TimeUtils.formatEntryTime(e)
 
-            // 完整句子：某某某 至今有 X 年 X 月 X 日 X 时 X 分 X 秒
-            val diff = TimeUtils.diffFull(e)
-            holder.b.itemSentence.text =
-                "${e.name} 至今有 ${diff.years} 年 ${diff.months} 月 ${diff.days} 日 " +
-                        "${diff.hours} 时 ${diff.minutes} 分 ${diff.seconds} 秒"
+            // 完整句子：某某某 至今有 X 年 X 个月零 X 天零 X 小时 X 秒（模值，跳过分）
+            holder.b.itemSentence.text = TimeUtils.formatSentence(e)
 
             holder.b.root.setOnClickListener { onClick(e) }
         }
